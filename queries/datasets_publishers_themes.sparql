@@ -1,0 +1,12 @@
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+
+SELECT ?dataset ?datasetTitle ?publisher ?theme
+WHERE {
+  ?dataset a dcat:Dataset ;
+           dct:title ?datasetTitle ;
+           dct:publisher ?publisher ;
+           dcat:theme ?theme .
+  FILTER(lang(?datasetTitle) = "en")
+}
+LIMIT 200
