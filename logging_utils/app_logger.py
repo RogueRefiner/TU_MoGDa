@@ -1,5 +1,6 @@
 import sys
 from typing import Any
+from pathlib import Path
 from loguru import logger as loguru_logger
 
 
@@ -31,6 +32,12 @@ class AppLogger:
                 "<cyan>{module}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - "
                 "<level>{message}</level>"
             ),
+        )
+
+        loguru_logger.add(
+            Path("validation_errors.log"),
+            level="ERROR",
+            format="{time:YYYY-MM-DD HH:mm:ss} - {level} - {message}",
         )
 
         self.logger = loguru_logger

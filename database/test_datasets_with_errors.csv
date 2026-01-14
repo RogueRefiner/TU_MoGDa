@@ -1,0 +1,14 @@
+dataset,datasetTitle,publisher,themes
+http://data.europa.eu/88u/dataset/valid-dataset-1,Valid Dataset Title,http://publications.europa.eu/resource/authority/corporate-body/ESTAT,http://publications.europa.eu/resource/authority/data-theme/HEAL
+http://data.europa.eu/88u/dataset/valid-dataset-2,Another Valid Title,nodeID://b2832808163,http://publications.europa.eu/resource/authority/data-theme/SOCI|http://publications.europa.eu/resource/authority/data-theme/ECON
+http://data.europa.eu/88u/dataset/empty-title-dataset,,http://publications.europa.eu/resource/authority/corporate-body/ESTAT,http://publications.europa.eu/resource/authority/data-theme/HEAL
+http://data.europa.eu/88u/dataset/whitespace-title-dataset,   ,nodeID://b5429733515,http://publications.europa.eu/resource/authority/data-theme/GOVE
+http://data.europa.eu/88u/dataset/empty-publisher-dataset,Dataset with Empty Publisher,,http://publications.europa.eu/resource/authority/data-theme/HEAL
+http://data.europa.eu/88u/dataset/whitespace-publisher-dataset,Dataset with Whitespace Publisher,   ,http://publications.europa.eu/resource/authority/data-theme/SOCI
+http://data.europa.eu/88u/dataset/empty-theme-dataset,Dataset with Empty Theme,http://publications.europa.eu/resource/authority/corporate-body/ESTAT,
+http://data.europa.eu/88u/dataset/whitespace-theme-dataset,Dataset with Whitespace Theme,nodeID://b2832808163,   
+http://data.europa.eu/88u/dataset/no-themes-dataset,Dataset with Pipe Only Theme,http://publications.europa.eu/resource/authority/corporate-body/ESTAT,|
+,Dataset with Empty URI,http://publications.europa.eu/resource/authority/corporate-body/ESTAT,http://publications.europa.eu/resource/authority/data-theme/HEAL
+http://data.europa.eu/88u/dataset/duplicate-dataset-1,Duplicate URI Dataset,http://publications.europa.eu/resource/authority/corporate-body/ESTAT,http://publications.europa.eu/resource/authority/data-theme/HEAL
+http://data.europa.eu/88u/dataset/duplicate-dataset-1,Different Title Same URI,nodeID://b2832808163,http://publications.europa.eu/resource/authority/data-theme/SOCI
+http://data.europa.eu/88u/dataset/valid-dataset-3,Valid with Multiple Themes,http://publications.europa.eu/resource/authority/corporate-body/ESTAT,http://publications.europa.eu/resource/authority/data-theme/HEAL|http://publications.europa.eu/resource/authority/data-theme/JUST|http://publications.europa.eu/resource/authority/data-theme/SOCI

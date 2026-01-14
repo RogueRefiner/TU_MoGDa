@@ -1,6 +1,6 @@
-CREATE CONSTRAINT institution_uri_unique IF NOT EXISTS
-FOR (i:Institution)
-REQUIRE i.uri IS UNIQUE;
+CREATE CONSTRAINT publisher_uri_unique IF NOT EXISTS
+FOR (p:publisher)
+REQUIRE p.uri IS UNIQUE;
 
 CREATE CONSTRAINT dataset_uri_unique IF NOT EXISTS
 FOR (d:Dataset)
