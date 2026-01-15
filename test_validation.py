@@ -84,7 +84,7 @@ if __name__ == "__main__":
     logger.info("TEST: Validation Errors with test_datasets_with_errors.csv")
 
     valid_datasets, validation_errors = load_and_validate_datasets(
-        "database/test_datasets_with_errors.csv"
+        "data/test_datasets_with_errors.csv"
     )
 
     logger.info("VALIDATION SUMMARY")

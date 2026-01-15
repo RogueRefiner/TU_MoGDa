@@ -35,7 +35,7 @@ class AppLogger:
         )
 
         loguru_logger.add(
-            Path("validation_errors.log"),
+            Path(__file__).parent / "validation_errors.log",
             level="ERROR",
             format="{time:YYYY-MM-DD HH:mm:ss} - {level} - {message}",
         )

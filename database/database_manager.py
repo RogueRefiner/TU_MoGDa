@@ -70,9 +70,13 @@ class DatabaseManager:
             "titles_created": 0,
             "publishers_created": 0,
             "themes_created": 0,
+            "landing_pages_created": 0,
+            "download_urls_created": 0,
             "has_title_relationships": 0,
             "published_by_relationships": 0,
             "has_theme_relationships": 0,
+            "has_landing_page_relationships": 0,
+            "has_download_url_relationships": 0,
             "errors": [],
         }
 
@@ -138,6 +142,42 @@ class DatabaseManager:
                             )
                             stats["has_theme_relationships"] += 1
 
+                        if dataset.landing_page:
+                            session.run(
+                                "MERGE (lp:LandingPage {url: $url})",
+                                {"url": dataset.landing_page.url},
+                            )
+                            stats["landing_pages_created"] += 1
+
+                            session.run(
+                                "MATCH (d:Dataset {uri: $dataset_uri}) "
+                                "MATCH (lp:LandingPage {url: $landing_page_url}) "
+                                "MERGE (d)-[:HAS_LANDING_PAGE]->(lp)",
+                                {
+                                    "dataset_uri": dataset.uri,
+                                    "landing_page_url": dataset.landing_page.url,
+                                },
+                            )
+                            stats["has_landing_page_relationships"] += 1
+
+                        if dataset.download_url:
+                            session.run(
+                                "MERGE (du:DownloadURL {url: $url})",
+                                {"url": dataset.download_url.url},
+                            )
+                            stats["download_urls_created"] += 1
+
+                            session.run(
+                                "MATCH (d:Dataset {uri: $dataset_uri}) "
+                                "MATCH (du:DownloadURL {url: $download_url}) "
+                                "MERGE (d)-[:HAS_DOWNLOAD_URL]->(du)",
+                                {
+                                    "dataset_uri": dataset.uri,
+                                    "download_url": dataset.download_url.url,
+                                },
+                            )
+                            stats["has_download_url_relationships"] += 1
+
                     except Exception as e:
                         error_msg = (
                             f"Failed to create nodes for dataset {dataset.uri}: {e}"
@@ -155,6 +195,15 @@ class DatabaseManager:
             self.logger.error(error_msg)
             stats["errors"].append(error_msg)
             return stats
+
+    def clear_graph(self) -> None:
+        try:
+            with self.driver.session() as session:
+                session.run("MATCH (n) DETACH DELETE n;")
+                self.logger.success(f"Graph successfully cleared")
+        except Exception as e:
+            error_msg = f"Failed to clear nodes and relationships: {e}"
+            self.logger.error(error_msg)
 
 
 def load_db_config() -> DatabaseManager:

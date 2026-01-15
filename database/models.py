@@ -1,5 +1,5 @@
 from pydantic import BaseModel, field_validator
-from typing import List
+from typing import List, Optional
 from logging_utils.app_logger import AppLogger
 
 _validation_logger = AppLogger()
@@ -60,11 +60,52 @@ class Theme(BaseModel):
         return v
 
 
+class LandingPage(BaseModel):
+    url: str
+
+    @field_validator("url")
+    @classmethod
+    def validate_url(cls, v: str) -> str:
+        try:
+            assert v is not None, "LandingPage.url cannot be None"
+            assert isinstance(v, str), "LandingPage.url must be a string"
+            assert len(v.strip()) > 0, "LandingPage.url cannot be empty"
+        except AssertionError as e:
+            error_msg = f"LandingPage.url validation failed: {e}"
+            _log_validation_error(error_msg)
+            raise
+        return v
+
+
+class DownloadURL(BaseModel):
+    url: str
+
+    @field_validator("url")
+    @classmethod
+    def validate_url(cls, v: str) -> str:
+        try:
+            assert v is not None, "DownloadURL.url cannot be None"
+            assert isinstance(v, str), "DownloadURL.url must be a string"
+            assert len(v.strip()) > 0, "DownloadURL.url cannot be empty"
+        except AssertionError as e:
+            error_msg = f"DownloadURL.url validation failed: {e}"
+            _log_validation_error(error_msg)
+            raise
+        return v
+
+
 class Dataset(BaseModel):
     uri: str
     title: DatasetTitle
     publisher: Publisher
     themes: List[Theme]
+    landing_page: Optional[LandingPage] = None
+    download_url: Optional[DownloadURL] = None
+    issued: Optional[str] = None
+    status: Optional[str] = None
+    access_url: Optional[str] = None
+    byte_size: Optional[int] = None
+    keywords: Optional[List[str]] = None
 
     @field_validator("uri")
     @classmethod

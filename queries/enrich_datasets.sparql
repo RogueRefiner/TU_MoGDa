@@ -1,0 +1,28 @@
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX adms: <http://www.w3.org/ns/adms#>
+
+SELECT ?issued ?status ?accessURL ?byteSize ?downloadURL ?landingPage 
+        (GROUP_CONCAT(DISTINCT ?keyword; separator=", ") AS ?keywords)
+WHERE {
+    BIND(<{dataset_uri}> AS ?dataset)
+
+    OPTIONAL { ?dataset dct:issued ?issued . }
+    OPTIONAL { ?dataset adms:status ?status . }
+    OPTIONAL { ?dataset dcat:landingPage ?landingPage . }
+    OPTIONAL { ?dataset dcat:keyword ?keyword . }
+
+    {
+    OPTIONAL { ?dataset dcat:accessURL ?accessURL . }
+    OPTIONAL { ?dataset dcat:downloadURL ?downloadURL . }
+    OPTIONAL { ?dataset dcat:byteSize ?byteSize . }
+    }
+    UNION
+    {
+    ?dataset dcat:distribution ?dist .
+    OPTIONAL { ?dist dcat:accessURL ?accessURL . }
+    OPTIONAL { ?dist dcat:downloadURL ?downloadURL . }
+    OPTIONAL { ?dist dcat:byteSize ?byteSize . }
+    }
+}
+GROUP BY ?issued ?status ?accessURL ?byteSize ?downloadURL ?landingPage

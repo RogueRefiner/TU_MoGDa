@@ -1,0 +1,22 @@
+2026-01-15 16:24:33 - ERROR - Row 4: Value error - 1 validation error for DatasetTitle
+value
+  Input should be a valid string [type=string_type, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-15 16:24:33 - ERROR - DatasetTitle validation failed: DatasetTitle.value cannot be empty
+2026-01-15 16:24:33 - ERROR - Row 5: Value error - 1 validation error for DatasetTitle
+value
+  Assertion failed, DatasetTitle.value cannot be empty [type=assertion_error, input_value='   ', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/assertion_error
+2026-01-15 16:24:33 - ERROR - Row 6: Value error - 1 validation error for Publisher
+uri
+  Input should be a valid string [type=string_type, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-15 16:24:33 - ERROR - Publisher.uri validation failed: Publisher.uri cannot be empty
+2026-01-15 16:24:33 - ERROR - Row 7: Value error - 1 validation error for Publisher
+uri
+  Assertion failed, Publisher.uri cannot be empty [type=assertion_error, input_value='   ', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/assertion_error
+2026-01-15 16:24:33 - ERROR - Row 11: Value error - 1 validation error for Dataset
+uri
+  Input should be a valid string [type=string_type, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
