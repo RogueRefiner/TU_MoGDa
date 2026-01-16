@@ -6,10 +6,11 @@
 - MATCH (:Dataset)-[:PUBLISHED_BY]->(:Publisher) RETURN count(*) AS rels;
 
 ## Quick sanity results (from my run)
-- Dataset nodes: 1500
-- Publisher nodes: 769
-- Theme nodes: 32
-- PUBLISHED_BY rels: 1500
+- Dataset nodes: 500
+- Publisher nodes: 274
+- Theme nodes: 21
+- PUBLISHED_BY rels: 500
+- HAS_THEME rels: 824
 
 ## SPARQL queries used
 1) queries/datasets_publishers_themes.sparql
