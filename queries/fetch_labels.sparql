@@ -1,0 +1,19 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT ?theme ?labelEN ?labelIT ?labelDE
+WHERE {
+    VALUES ?theme { {values_clause} }
+    
+    ?theme skos:prefLabel ?labelEN .
+    FILTER(lang(?labelEN) = "en")
+    
+    OPTIONAL {
+    ?theme skos:prefLabel ?labelIT .
+    FILTER(lang(?labelIT) = "it")
+    }
+
+    OPTIONAL {
+    ?theme skos:prefLabel ?labelDE .
+    FILTER(lang(?labelDE) = "de")
+    }
+}
