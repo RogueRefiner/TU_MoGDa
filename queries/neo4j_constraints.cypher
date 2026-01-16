@@ -1,5 +1,5 @@
 CREATE CONSTRAINT publisher_uri_unique IF NOT EXISTS
-FOR (p:publisher)
+FOR (p:Publisher)
 REQUIRE p.uri IS UNIQUE;
 
 CREATE CONSTRAINT dataset_uri_unique IF NOT EXISTS
