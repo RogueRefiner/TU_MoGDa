@@ -9,6 +9,7 @@ from database.models import (
     DownloadURL,
 )
 from logging_utils.app_logger import AppLogger
+import re
 
 DEBUG = True
 
@@ -111,6 +112,64 @@ def load_and_combine_datasets(
         return []
 
 
+def load_theme_labels(theme_labels_csv_path: str) -> dict:
+    logger = AppLogger()
+    theme_labels_map = {}
+
+    try:
+        df = pd.read_csv(theme_labels_csv_path)
+        logger.info(f"Loaded theme labels from {theme_labels_csv_path}")
+
+        for idx, row in df.iterrows():
+            try:
+                themes_str = row.get("themes", "")
+                theme_uris = [
+                    t
+                    for t in re.split(r"[\s|]+", themes_str.strip())
+                    if t.startswith("http")
+                ]
+
+                for theme_uri in theme_uris:
+                    if theme_uri not in theme_labels_map:
+                        theme_labels_map[theme_uri] = {}
+
+                    label_en = row.get("theme_labels_en", "")
+                    label_it = row.get("theme_labels_it", "")
+                    label_de = row.get("theme_labels_de", "")
+
+                    if label_en and isinstance(label_en, str):
+                        labels_list = [
+                            l.strip() for l in str(label_en).split("|") if l.strip()
+                        ]
+                        if labels_list:
+                            theme_labels_map[theme_uri]["en"] = labels_list[0]
+
+                    if label_it and isinstance(label_it, str):
+                        labels_list = [
+                            l.strip() for l in str(label_it).split("|") if l.strip()
+                        ]
+                        if labels_list:
+                            theme_labels_map[theme_uri]["it"] = labels_list[0]
+
+                    if label_de and isinstance(label_de, str):
+                        labels_list = [
+                            l.strip() for l in str(label_de).split("|") if l.strip()
+                        ]
+                        if labels_list:
+                            theme_labels_map[theme_uri]["de"] = labels_list[0]
+
+            except Exception as e:
+                logger.warning(f"Failed to parse theme labels at row {idx + 2}: {e}")
+                continue
+
+        logger.success(f"Loaded labels for {len(theme_labels_map)} unique themes")
+        return theme_labels_map
+
+    except Exception as e:
+        logger.error(f"Failed to load theme labels CSV: {e}")
+        return {}
+
+
 if __name__ == "__main__":
     logger = AppLogger()
 
@@ -156,6 +215,29 @@ if __name__ == "__main__":
         logger.error(f"Encountered {len(stats['errors'])} errors during creation")
         for error in stats["errors"][:5]:
             logger.error(f"  - {error}")
+
+    logger.info("Loading theme labels...")
+    theme_labels_map = load_theme_labels("data/datasets_with_theme_labels.csv")
+
+    if theme_labels_map:
+        label_stats = database_manager.create_theme_label_nodes_and_relationships(
+            theme_labels_map
+        )
+
+        logger.info("Theme label creation statistics:")
+        logger.info(f"Theme labels created: {label_stats['theme_labels_created']}")
+        logger.info(
+            f"HAS_LABEL relationships: {label_stats['has_label_relationships']}"
+        )
+
+        if label_stats["errors"]:
+            logger.error(
+                f"Encountered {len(label_stats['errors'])} errors during label creation"
+            )
+            for error in label_stats["errors"][:5]:
+                logger.error(f"  - {error}")
+    else:
+        logger.warning("No theme labels loaded. Skipping theme label node creation.")
 
     database_manager.close()
     logger.success("Process completed")

@@ -94,6 +94,37 @@ class DownloadURL(BaseModel):
         return v
 
 
+class ThemeLabel(BaseModel):
+    title: str
+    language: str
+
+    @field_validator("title")
+    @classmethod
+    def validate_title(cls, v: str) -> str:
+        try:
+            assert v is not None, "ThemeLabel.title cannot be None"
+            assert isinstance(v, str), "ThemeLabel.title must be a string"
+            assert len(v.strip()) > 0, "ThemeLabel.title cannot be empty"
+        except AssertionError as e:
+            error_msg = f"ThemeLabel.title validation failed: {e}"
+            _log_validation_error(error_msg)
+            raise
+        return v
+
+    @field_validator("language")
+    @classmethod
+    def validate_language(cls, v: str) -> str:
+        try:
+            assert v is not None, "ThemeLabel.language cannot be None"
+            assert isinstance(v, str), "ThemeLabel.language must be a string"
+            assert len(v.strip()) > 0, "ThemeLabel.language cannot be empty"
+        except AssertionError as e:
+            error_msg = f"ThemeLabel.language validation failed: {e}"
+            _log_validation_error(error_msg)
+            raise
+        return v
+
+
 class Dataset(BaseModel):
     uri: str
     title: DatasetTitle

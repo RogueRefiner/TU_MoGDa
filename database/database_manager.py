@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 from neo4j import GraphDatabase, Neo4jDriver
 from logging_utils.app_logger import AppLogger
-from database.models import Dataset
-from typing import List
+from database.models import Dataset, ThemeLabel
+from typing import List, Dict
 from pathlib import Path
 
 
@@ -192,6 +192,59 @@ class DatabaseManager:
 
         except Exception as e:
             error_msg = f"Failed to create dataset nodes and relationships: {e}"
+            self.logger.error(error_msg)
+            stats["errors"].append(error_msg)
+            return stats
+
+    def create_theme_label_nodes_and_relationships(
+        self, theme_labels_map: Dict[str, Dict[str, str]]
+    ) -> dict:
+        stats = {
+            "theme_labels_created": 0,
+            "has_label_relationships": 0,
+            "errors": [],
+        }
+
+        try:
+            with self.driver.session() as session:
+                for theme_uri, labels in theme_labels_map.items():
+                    try:
+                        for language, label_text in labels.items():
+                            if not label_text or not label_text.strip():
+                                continue
+
+                            session.run(
+                                "MERGE (tl:ThemeLabel {title: $title, language: $language})",
+                                {"title": label_text.strip(), "language": language},
+                            )
+                            stats["theme_labels_created"] += 1
+
+                            session.run(
+                                "MATCH (t:Theme {uri: $theme_uri}) "
+                                "MATCH (tl:ThemeLabel {title: $title, language: $language}) "
+                                "MERGE (t)-[:HAS_LABEL]->(tl)",
+                                {
+                                    "theme_uri": theme_uri,
+                                    "title": label_text.strip(),
+                                    "language": language,
+                                },
+                            )
+                            stats["has_label_relationships"] += 1
+
+                    except Exception as e:
+                        error_msg = (
+                            f"Failed to create labels for theme {theme_uri}: {e}"
+                        )
+                        self.logger.error(error_msg)
+                        stats["errors"].append(error_msg)
+
+            self.logger.success(
+                f"Created {stats['theme_labels_created']} theme labels with relationships"
+            )
+            return stats
+
+        except Exception as e:
+            error_msg = f"Failed to create theme label nodes and relationships: {e}"
             self.logger.error(error_msg)
             stats["errors"].append(error_msg)
             return stats

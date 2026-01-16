@@ -9,3 +9,7 @@ REQUIRE d.uri IS UNIQUE;
 CREATE CONSTRAINT theme_uri_unique IF NOT EXISTS
 FOR (t:Theme)
 REQUIRE t.uri IS UNIQUE;
+
+CREATE CONSTRAINT theme_label_unique IF NOT EXISTS
+FOR (tl:ThemeLabel)
+REQUIRE (tl.title, tl.language) IS UNIQUE;

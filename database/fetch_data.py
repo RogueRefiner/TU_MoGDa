@@ -179,6 +179,6 @@ def run_enrichment():
 if __name__ == "__main__":
     logger.info("Starting dataset fetching process")
     save_initial_datasets()
-    # logger.info("\nStarting enrichment process...")
-    # run_enrichment()
-    # logger.success("Process completed successfully!")
+    logger.info("\nStarting enrichment process...")
+    run_enrichment()
+    logger.success("Process completed successfully!")
