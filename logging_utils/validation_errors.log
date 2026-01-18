@@ -20,3 +20,39 @@ uri
 uri
   Input should be a valid string [type=string_type, input_value=nan, input_type=float]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-18 22:08:30 - ERROR - Constraints file not found: queries/neo4j_constraints.cypher
+2026-01-18 22:08:30 - ERROR - Failed to load constraints. Exiting.
+2026-01-18 22:09:28 - ERROR - Error executing query 'datasets_and_relationships': {neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Expected exactly one statement per query but got: 11 (line 0, column 0 (offset: 0))
+"MERGE (d:Dataset {uri: $uri});"
+ ^} {gql_status: 42001} {gql_status_description: error: syntax error or access rule violation - invalid syntax}
+2026-01-18 22:09:29 - ERROR - Error executing query 'theme_labels': {neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Expected exactly one statement per query but got: 2 (line 0, column 0 (offset: 0))
+"MERGE (tl:ThemeLabel {title: $title, language: $language});"
+ ^} {gql_status: 42001} {gql_status_description: error: syntax error or access rule violation - invalid syntax}
+2026-01-18 22:11:58 - ERROR - Error executing query 'datasets_and_relationships': {neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Expected exactly one statement per query but got: 11 (line 0, column 0 (offset: 0))
+"MERGE (d:Dataset {uri: $uri});"
+ ^} {gql_status: 42001} {gql_status_description: error: syntax error or access rule violation - invalid syntax}
+2026-01-18 22:11:58 - ERROR - Error executing query 'theme_labels': {neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Expected exactly one statement per query but got: 2 (line 0, column 0 (offset: 0))
+"MERGE (tl:ThemeLabel {title: $title, language: $language});"
+ ^} {gql_status: 42001} {gql_status_description: error: syntax error or access rule violation - invalid syntax}
+2026-01-18 22:13:32 - ERROR - Row 4: Value error - 1 validation error for DatasetTitle
+value
+  Input should be a valid string [type=string_type, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-18 22:13:32 - ERROR - DatasetTitle validation failed: DatasetTitle.value cannot be empty
+2026-01-18 22:13:32 - ERROR - Row 5: Value error - 1 validation error for DatasetTitle
+value
+  Assertion failed, DatasetTitle.value cannot be empty [type=assertion_error, input_value='   ', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/assertion_error
+2026-01-18 22:13:32 - ERROR - Row 6: Value error - 1 validation error for Publisher
+uri
+  Input should be a valid string [type=string_type, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-01-18 22:13:32 - ERROR - Publisher.uri validation failed: Publisher.uri cannot be empty
+2026-01-18 22:13:32 - ERROR - Row 7: Value error - 1 validation error for Publisher
+uri
+  Assertion failed, Publisher.uri cannot be empty [type=assertion_error, input_value='   ', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.12/v/assertion_error
+2026-01-18 22:13:32 - ERROR - Row 11: Value error - 1 validation error for Dataset
+uri
+  Input should be a valid string [type=string_type, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
